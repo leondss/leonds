@@ -58,8 +58,9 @@ public class SysUserServiceImpl implements SysUserService {
             }
         }
         SysUser result = sysUserRepository.save(newUser);
-
-        sysRoleService.saveUserRole(result.getId(), roleIds);
+        if (roleIds != null) {
+            sysRoleService.saveUserRole(result.getId(), roleIds);
+        }
         return result;
     }
 

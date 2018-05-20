@@ -5,7 +5,7 @@ spring:
     name: leonds
     url: jdbc:mysql://localhost:3306/leonds?useUnicode=true&amp;characterEncoding=utf8
     username: root
-    password:
+    password: RootRoot#001
     driver-class-name: com.mysql.jdbc.Driver
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
@@ -20,6 +20,8 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
   messages:
     basename: i18n.messages
 server:
