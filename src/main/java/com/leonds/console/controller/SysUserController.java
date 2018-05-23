@@ -2,6 +2,7 @@ package com.leonds.console.controller;
 
 import com.leonds.console.service.SysRoleService;
 import com.leonds.console.service.SysUserService;
+import com.leonds.core.ServiceException;
 import com.leonds.core.resp.Response;
 import com.leonds.domain.dto.SysUserRoleDto;
 import com.leonds.domain.entity.SysUser;
@@ -31,10 +32,11 @@ public class SysUserController {
     }
 
     @GetMapping("/page")
-    public Page<SysUser> page(@RequestParam(defaultValue = "0") int page,
-                              @RequestParam(defaultValue = "10") int size,
-                              String text, String status) {
-        return sysUserService.getPage(PageRequest.of(page, size), text, status);
+    public Response page(@RequestParam(defaultValue = "0") int page,
+                         @RequestParam(defaultValue = "10") int size,
+                         String text, String status) {
+        Page<SysUser> result = sysUserService.getPage(PageRequest.of(page, size), text, status);
+        return Response.ok(result).build();
     }
 
     @GetMapping("/{id}")
@@ -45,10 +47,11 @@ public class SysUserController {
 
     @PostMapping("/remove")
     public Response remove(@RequestBody List<String> ids) {
-        if (!ids.isEmpty()) {
+        throw new ServiceException("testeset");
+        /*if (!ids.isEmpty()) {
             sysUserService.remove(ids);
-        }
-        return Response.ok().build();
+        }*/
+//        return Response.ok().build();
     }
 
     @PostMapping("/enable")

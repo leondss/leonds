@@ -21,4 +21,6 @@ public interface SysRoleService {
     void saveUserRole(String userId, List<String> roleIds);
 
     void saveRoleResource(String roleId, List<String> resourceIds);
+
+    List<SysRole> getAll();
 }

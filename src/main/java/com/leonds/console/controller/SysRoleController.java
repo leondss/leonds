@@ -42,9 +42,16 @@ public class SysRoleController {
     }
 
     @GetMapping("/page")
-    public Page<SysRole> page(@RequestParam(defaultValue = "0") int page,
-                              @RequestParam(defaultValue = "10") int size,
-                              String text) {
-        return sysRoleService.getPage(PageRequest.of(page, size), text);
+    public Response page(@RequestParam(defaultValue = "0") int page,
+                         @RequestParam(defaultValue = "10") int size,
+                         String text) {
+        Page<SysRole> result = sysRoleService.getPage(PageRequest.of(page, size), text);
+        return Response.ok(result).build();
+    }
+
+    @GetMapping("/all")
+    public Response all() {
+        List<SysRole> sysRoles = sysRoleService.getAll();
+        return Response.ok(sysRoles).build();
     }
 }

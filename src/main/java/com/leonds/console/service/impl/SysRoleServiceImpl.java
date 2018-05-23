@@ -1,5 +1,6 @@
 package com.leonds.console.service.impl;
 
+import com.google.common.collect.Lists;
 import com.leonds.console.repository.SysRoleRepository;
 import com.leonds.console.repository.SysRoleResourceRepository;
 import com.leonds.console.repository.SysUserRoleRepository;
@@ -104,5 +105,10 @@ public class SysRoleServiceImpl implements SysRoleService {
             sysRoleResource.setResourceId(resId);
             sysRoleResourceRepository.save(sysRoleResource);
         });
+    }
+
+    @Override
+    public List<SysRole> getAll() {
+        return Lists.newArrayList(sysRoleRepository.findAll());
     }
 }
