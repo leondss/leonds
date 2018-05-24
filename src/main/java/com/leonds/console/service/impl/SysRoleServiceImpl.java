@@ -22,6 +22,7 @@ import javax.persistence.criteria.Predicate;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Leon
@@ -110,5 +111,21 @@ public class SysRoleServiceImpl implements SysRoleService {
     @Override
     public List<SysRole> getAll() {
         return Lists.newArrayList(sysRoleRepository.findAll());
+    }
+
+    @Override
+    public List<String> getUserRoleIds(String userId) {
+        List<SysUserRole> sysUserRoles = sysUserRoleRepository.findByUserId(userId);
+        return sysUserRoles.stream().map(SysUserRole::getRoleId).collect(Collectors.toList());
+    }
+
+    @Override
+    public void removeUserRole(String userId) {
+        sysUserRoleRepository.deleteByUserId(userId);
+    }
+
+    @Override
+    public List<String> getRoleResource(String roleId) {
+        return sysRoleResourceRepository.findByRoleId(roleId).stream().map(SysRoleResource::getResourceId).collect(Collectors.toList());
     }
 }

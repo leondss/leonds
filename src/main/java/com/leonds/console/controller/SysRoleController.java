@@ -2,7 +2,7 @@ package com.leonds.console.controller;
 
 import com.leonds.console.service.SysRoleService;
 import com.leonds.core.resp.Response;
-import com.leonds.domain.dto.SysRoleResourceDto;
+import com.leonds.domain.dto.SysRoleDto;
 import com.leonds.domain.entity.SysRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,8 +22,11 @@ public class SysRoleController {
     private SysRoleService sysRoleService;
 
     @PostMapping("/save")
-    public Response save(@RequestBody SysRoleResourceDto sysRoleResourceDto) {
-        SysRole result = sysRoleService.save(sysRoleResourceDto.getSysRole(), sysRoleResourceDto.getResourceIds());
+    public Response save(@RequestBody SysRoleDto sysRoleDto) {
+        SysRole sysRole = new SysRole();
+        sysRole.setName(sysRoleDto.getName());
+        sysRole.setId(sysRoleDto.getId());
+        SysRole result = sysRoleService.save(sysRole, sysRoleDto.getResourceIds());
         return Response.ok(result).build();
     }
 
@@ -38,7 +41,13 @@ public class SysRoleController {
     @GetMapping("/{id}")
     public Response get(@PathVariable("id") String id) {
         SysRole result = sysRoleService.getById(id);
-        return Response.ok(result).build();
+        List<String> resourceIds = sysRoleService.getRoleResource(id);
+        SysRoleDto sysRoleDto = SysRoleDto.builder()
+                .name(result.getName())
+                .id(result.getId())
+                .resourceIds(resourceIds)
+                .build();
+        return Response.ok(sysRoleDto).build();
     }
 
     @GetMapping("/page")

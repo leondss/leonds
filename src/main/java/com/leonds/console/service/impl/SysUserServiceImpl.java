@@ -12,6 +12,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -50,12 +51,12 @@ public class SysUserServiceImpl implements SysUserService {
             SysUser user = getById(sysUser.getId());
             BeanUtils.copyProperties(user, newUser);
 
-            if (StringUtils.isNotBlank(sysUser.getUsername())) {
+            /*if (StringUtils.isNotBlank(sysUser.getUsername())) {
                 newUser.setUsername(sysUser.getUsername());
             }
             if (StringUtils.isNotBlank(sysUser.getPassword())) {
                 newUser.setPassword(sysUser.getPassword());
-            }
+            }*/
         }
         SysUser result = sysUserRepository.save(newUser);
         if (roleIds != null) {
@@ -84,12 +85,16 @@ public class SysUserServiceImpl implements SysUserService {
             }
             return cb.and(predicates.toArray(new Predicate[0]));
         };
+        pageRequest.getSort().and(Sort.by(Sort.Order.desc("creationTime")));
         return sysUserRepository.findAll(specification, pageRequest);
     }
 
     @Override
     public void remove(List<String> ids) {
-        ids.forEach(id -> sysUserRepository.deleteById(id));
+        ids.forEach(id -> {
+            sysUserRepository.deleteById(id);
+            sysRoleService.removeUserRole(id);
+        });
     }
 
     @Override

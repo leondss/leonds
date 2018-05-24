@@ -2,9 +2,8 @@ package com.leonds.console.controller;
 
 import com.leonds.console.service.SysRoleService;
 import com.leonds.console.service.SysUserService;
-import com.leonds.core.ServiceException;
 import com.leonds.core.resp.Response;
-import com.leonds.domain.dto.SysUserRoleDto;
+import com.leonds.domain.dto.SysUserDto;
 import com.leonds.domain.entity.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,8 +25,13 @@ public class SysUserController {
     private SysRoleService sysRoleService;
 
     @PostMapping("/save")
-    public Response save(@RequestBody SysUserRoleDto sysUserRoleDto) {
-        SysUser user = sysUserService.save(sysUserRoleDto.getSysUser(), sysUserRoleDto.getRoleIds());
+    public Response save(@RequestBody SysUserDto sysUserDto) {
+        SysUser sysUser = new SysUser();
+        sysUser.setId(sysUserDto.getId());
+        sysUser.setUsername(sysUserDto.getUsername());
+        sysUser.setPassword(sysUserDto.getPassword());
+        sysUser.setStatus(sysUserDto.getStatus());
+        SysUser user = sysUserService.save(sysUser, sysUserDto.getRoleIds());
         return Response.ok(user).build();
     }
 
@@ -42,16 +46,22 @@ public class SysUserController {
     @GetMapping("/{id}")
     public Response get(@PathVariable("id") String id) {
         SysUser user = sysUserService.getById(id);
-        return Response.ok(user).build();
+        List<String> userRoleIds = sysRoleService.getUserRoleIds(id);
+        SysUserDto sysUserRoleDto = SysUserDto.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .password(user.getPassword())
+                .roleIds(userRoleIds)
+                .build();
+        return Response.ok(sysUserRoleDto).build();
     }
 
     @PostMapping("/remove")
     public Response remove(@RequestBody List<String> ids) {
-        throw new ServiceException("testeset");
-        /*if (!ids.isEmpty()) {
+        if (!ids.isEmpty()) {
             sysUserService.remove(ids);
-        }*/
-//        return Response.ok().build();
+        }
+        return Response.ok().build();
     }
 
     @PostMapping("/enable")
@@ -77,8 +87,8 @@ public class SysUserController {
     }
 
     @PostMapping("/save/role")
-    public Response saveRole(@RequestBody SysUserRoleDto sysUserRoleDto) {
-        sysRoleService.saveUserRole(sysUserRoleDto.getUserId(), sysUserRoleDto.getRoleIds());
+    public Response saveRole(@RequestBody SysUserDto sysUserRoleDto) {
+        sysRoleService.saveUserRole(sysUserRoleDto.getId(), sysUserRoleDto.getRoleIds());
         return Response.ok().build();
     }
 

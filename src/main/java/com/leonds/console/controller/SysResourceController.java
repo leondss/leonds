@@ -18,6 +18,11 @@ public class SysResourceController {
     @Autowired
     private SysResourceService sysResourceService;
 
+    @PostMapping("/tree")
+    public Response tree() {
+        return Response.ok().build();
+    }
+
     @PostMapping("/save")
     public Response save(@RequestBody SysResource sysResource) {
         SysResource result = sysResourceService.save(sysResource);

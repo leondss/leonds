@@ -1,6 +1,7 @@
 package com.leonds.domain.dto;
 
-import com.leonds.domain.entity.SysRole;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,8 +12,10 @@ import java.util.List;
  */
 @Data
 @NoArgsConstructor
-public class SysRoleResourceDto {
-    private SysRole sysRole;
+@AllArgsConstructor
+@Builder
+public class SysRoleDto {
+    private String id;
+    private String name;
     private List<String> resourceIds;
-    private String roleId;
 }
