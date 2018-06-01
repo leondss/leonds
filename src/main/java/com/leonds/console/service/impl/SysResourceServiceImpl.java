@@ -4,6 +4,7 @@ import com.leonds.console.repository.SysResourceRepository;
 import com.leonds.console.service.SysResourceService;
 import com.leonds.core.CheckUtils;
 import com.leonds.core.MessageUtils;
+import com.leonds.domain.dto.TreeNode;
 import com.leonds.domain.entity.SysResource;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Leon
@@ -63,5 +65,27 @@ public class SysResourceServiceImpl implements SysResourceService {
     @Override
     public void remove(List<String> ids) {
         ids.forEach(id -> sysResourceRepository.deleteById(id));
+    }
+
+    @Override
+    public List<TreeNode> getTreeByPid(String pid) {
+        List<SysResource> resources;
+        if (StringUtils.isNotBlank(pid)) {
+            resources = sysResourceRepository.findByPid(pid);
+        } else {
+            resources = sysResourceRepository.findByPidIsNull();
+        }
+        return resources.stream().map((res) -> {
+            TreeNode treeNode = new TreeNode();
+            treeNode.setId(res.getId());
+            treeNode.setLink(res.getLink());
+            treeNode.setPermission(res.getPermission());
+            treeNode.setPosition(res.getPosition());
+            treeNode.setType(res.getType());
+            treeNode.setIsLeaf(true);
+            treeNode.setPid(res.getPid());
+            treeNode.setName(res.getName());
+            return treeNode;
+        }).collect(Collectors.toList());
     }
 }

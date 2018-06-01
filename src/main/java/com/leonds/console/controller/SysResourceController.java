@@ -2,6 +2,7 @@ package com.leonds.console.controller;
 
 import com.leonds.console.service.SysResourceService;
 import com.leonds.core.resp.Response;
+import com.leonds.domain.dto.TreeNode;
 import com.leonds.domain.entity.SysResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,9 +19,10 @@ public class SysResourceController {
     @Autowired
     private SysResourceService sysResourceService;
 
-    @PostMapping("/tree")
-    public Response tree() {
-        return Response.ok().build();
+    @GetMapping("/tree")
+    public Response getByPid(String pid) {
+        List<TreeNode> treeNodes = sysResourceService.getTreeByPid(pid);
+        return Response.ok(treeNodes).build();
     }
 
     @PostMapping("/save")
