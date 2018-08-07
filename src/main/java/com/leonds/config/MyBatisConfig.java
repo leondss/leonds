@@ -30,7 +30,7 @@ public class MyBatisConfig {
         sessionFactory.setDataSource(dataSource);
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         try {
-            sessionFactory.setMapperLocations(resolver.getResources("classpath*:com/leonds/wkl/**/mapper/*.xml"));
+            sessionFactory.setMapperLocations(resolver.getResources("classpath*:com/leonds/**/mapper/*.xml"));
 
             org.apache.ibatis.session.Configuration configuration = new org.apache.ibatis.session.Configuration();
             configuration.setMapUnderscoreToCamelCase(true);
