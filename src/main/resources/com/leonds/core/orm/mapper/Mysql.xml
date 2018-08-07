@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="common">
+    <sql id="pre_sql">
+        <if test="isCount != null">
+            SELECT COUNT(1) AS count FROM (
+        </if>
+        <if test="orderByClause != null">
+            SELECT * FROM (
+        </if>
+
+        <if test="isPage != null">
+            SELECT * FROM (
+        </if>
+    </sql>
+    <sql id="post_sql">
+        <if test="orderByClause != null">
+            ) ORDERBY_QUERY ORDER BY ${orderByClause}
+        </if>
+
+        <if test="isPage != null">
+            ) PAGE_QUERY limit #{page.offset},#{page.size}
+        </if>
+
+        <if test="isCount != null">
+            ) COUNT_QUERY
+        </if>
+
+    </sql>
+
+</mapper>

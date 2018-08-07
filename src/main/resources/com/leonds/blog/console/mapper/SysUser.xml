@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.leonds.wkl.console.mapper">
+
+    <select id="getUsers" parameterType="hashmap" resultType="hashmap">
+        <include refid="common.pre_sql"/>
+        SELECT
+        t.id,
+        t.username,
+        t.`password`,
+        t.status,
+        t.real_name,
+        t.mobile,
+        t.creation_time,
+        ws.`name` AS store_name
+        FROM
+        sys_user t
+        LEFT JOIN sys_user_store sur ON sur.user_id = t.id
+        LEFT JOIN wkl_store ws ON ws.id = sur.store_id
+        WHERE 1=1
+        <if test="text != null and text != ''">
+            AND (
+            t.username LIKE CONCAT('%',#{text},'%')
+            OR t.real_name LIKE CONCAT('%',#{text},'%')
+            OR t.mobile LIKE CONCAT('%',#{text},'%')
+            OR ws.name LIKE CONCAT('%',#{text},'%')
+            )
+        </if>
+        <if test="status != null and status != ''">
+            AND t.status = #{status}
+        </if>
+        <include refid="common.post_sql"/>
+    </select>
+
+    <select id="getUserRoles" parameterType="hashmap" resultType="hashmap">
+        <include refid="common.pre_sql"/>
+        select
+            sr.id,
+            sr.code,
+            sr.name
+        from
+            sys_role sr
+        left join sys_user_role sur on
+            sur.role_id = sr.id
+        left join sys_user su on
+            su.id = sur.user_id
+        where su.id = #{userId}
+        <include refid="common.post_sql"/>
+    </select>
+
+    <select id="getUserPerms" parameterType="hashmap" resultType="hashmap">
+        <include refid="common.pre_sql"/>
+        <![CDATA[
+        SELECT DISTINCT
+            sr.permission
+        FROM
+            sys_resource sr
+        LEFT JOIN sys_role_resource srr ON srr.resource_id = sr.id
+        LEFT JOIN sys_role sro ON sro.id = srr.role_id
+        LEFT JOIN sys_user_role sur ON sur.role_id = sro.id
+        LEFT JOIN sys_user su ON su.id = sur.user_id
+        WHERE
+            sr.permission IS NOT NULL
+        AND sr.permission <> ''
+        AND su.id = #{userId}
+
+        UNION
+
+        SELECT
+            srp.perm as permission
+        FROM
+            sys_role_perm srp
+            LEFT JOIN sys_user_role sur ON sur.role_id = srp.role_id
+        WHERE
+            sur.user_id = #{userId}
+        ]]>
+        <include refid="common.post_sql"/>
+    </select>
+
+    <select id="getUserMenus" parameterType="hashmap" resultType="hashmap">
+        <include refid="common.pre_sql"/>
+        <![CDATA[
+        SELECT DISTINCT
+            sr.*
+        FROM
+            sys_resource sr
+        LEFT JOIN sys_role_resource srr ON srr.resource_id = sr.id
+        LEFT JOIN sys_role sro ON sro.id = srr.role_id
+        LEFT JOIN sys_user_role sur ON sur.role_id = sro.id
+        LEFT JOIN sys_user su ON su.id = sur.user_id
+        WHERE
+            sr.type IN ('MENU')
+        AND su.id = #{userId}
+        ORDER BY sr.position
+        ]]>
+        <include refid="common.post_sql"/>
+    </select>
+
+    <select id="getCategoryPerms" parameterType="hashmap" resultType="String">
+        <include refid="common.pre_sql"/>
+        <![CDATA[
+        SELECT
+            DISTINCT srp.perm
+        FROM
+            sys_role_perm srp
+            LEFT JOIN sys_user_role sur ON sur.role_id = srp.role_id
+        WHERE
+            sur.user_id = #{userId}
+            AND srp.perm_type = 3
+        ]]>
+        <include refid="common.post_sql"/>
+    </select>
+
+    <select id="getMaxDayPerms" parameterType="hashmap" resultType="String">
+        <include refid="common.pre_sql"/>
+        <![CDATA[
+        SELECT
+            DISTINCT srp.perm
+        FROM
+            sys_role_perm srp
+            LEFT JOIN sys_user_role sur ON sur.role_id = srp.role_id
+        WHERE
+            sur.user_id = #{userId}
+            AND srp.perm_type = 4
+        ]]>
+        <include refid="common.post_sql"/>
+    </select>
+
+</mapper>
