@@ -22,7 +22,7 @@ public class CheckUtils {
         }
     }
 
-    public static <T> void checkState(boolean input, String message) {
+    public static void checkState(boolean input, String message) {
         if (!input) {
             throw new ServiceException(message);
         }
