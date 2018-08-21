@@ -70,7 +70,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
 //                .anyRequest().permitAll();
-                .antMatchers("/login*").permitAll()
+                .antMatchers("/api/login*").permitAll()
                 .antMatchers("/logout*").permitAll()
                 .antMatchers("/file/**").permitAll()
                 .antMatchers("/api/**").authenticated();
@@ -92,7 +92,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // context repository
         httpSecurity.securityContext().securityContextRepository(customSecurityContextRepository);
 
-        httpSecurity.logout().logoutSuccessHandler(new CustomLogoutSuccessHandler());
+        httpSecurity.logout().logoutUrl("/api/logout").logoutSuccessHandler(new CustomLogoutSuccessHandler());
 
         // disable page caching
         httpSecurity
@@ -111,7 +111,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 "/**/*.html",
                 "/**/*.css",
                 "/**/*.js",
-                "/login*",
+                "/api/login*",
                 "/file/**"
         );
     }

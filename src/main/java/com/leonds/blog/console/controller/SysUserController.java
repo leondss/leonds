@@ -108,15 +108,17 @@ public class SysUserController {
             if (sysUser != null) {
                 List<String> userPerms = sysUserService.getUserPerms(sysUser.getId());
                 List<SysResource> resources = sysUserService.getUserMenus(sysUser.getId());
-                List<String> userMaxDayPerms = sysUserService.getUserMaxDayPerms(sysUser.getId());
-                result.put("user", sysUser);
+
+                SysUserDto sysUserRoleDto = SysUserDto.builder()
+                        .id(sysUser.getId())
+                        .username(sysUser.getUsername())
+                        .mobile(sysUser.getMobile())
+                        .realName(sysUser.getRealName())
+                        .build();
+
+                result.put("user", sysUserRoleDto);
                 result.put("perms", userPerms);
                 result.put("resources", resources);
-
-                Map<String, Object> dataPerms = new HashMap<>();
-                dataPerms.put("maxDay", userMaxDayPerms.isEmpty() ? 0 : userMaxDayPerms.get(0));
-
-                result.put("dataPerms", dataPerms);
             }
         }
         return Response.ok(result).build();

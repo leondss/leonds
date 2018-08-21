@@ -46,7 +46,4 @@ public interface SysUserService {
 
     List<SysUser> getAllUser();
 
-    List<String> getUserCategoryPerms(String userId);
-
-    List<String> getUserMaxDayPerms(String userId);
 }

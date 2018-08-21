@@ -38,7 +38,7 @@ public class AppController {
     @Autowired
     private SysUserService sysUserService;
 
-    @PostMapping("/login")
+    @PostMapping("/api/login")
     @ResponseBody
     public Response login(String username, String password) {
         String token;
@@ -77,7 +77,7 @@ public class AppController {
         return Response.ok(token).build();
     }
 
-    @PostMapping("/modify/password")
+    @PostMapping("/api/modify/password")
     @ResponseBody
     public Response modifyPassword(String oldPassword, String newPassword, String confirmPassword) {
         CheckUtils.checkNotBlank(oldPassword, MessageUtils.get("sysUser.password.notBlank"));

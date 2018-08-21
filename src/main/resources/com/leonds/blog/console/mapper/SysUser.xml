@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.leonds.wkl.console.mapper">
+<mapper namespace="com.leonds.blog.console.mapper">
 
     <select id="getUsers" parameterType="hashmap" resultType="hashmap">
         <include refid="common.pre_sql"/>
@@ -63,16 +63,6 @@
             sr.permission IS NOT NULL
         AND sr.permission <> ''
         AND su.id = #{userId}
-
-        UNION
-
-        SELECT
-            srp.perm as permission
-        FROM
-            sys_role_perm srp
-            LEFT JOIN sys_user_role sur ON sur.role_id = srp.role_id
-        WHERE
-            sur.user_id = #{userId}
         ]]>
         <include refid="common.post_sql"/>
     </select>
@@ -95,35 +85,4 @@
         ]]>
         <include refid="common.post_sql"/>
     </select>
-
-    <select id="getCategoryPerms" parameterType="hashmap" resultType="String">
-        <include refid="common.pre_sql"/>
-        <![CDATA[
-        SELECT
-            DISTINCT srp.perm
-        FROM
-            sys_role_perm srp
-            LEFT JOIN sys_user_role sur ON sur.role_id = srp.role_id
-        WHERE
-            sur.user_id = #{userId}
-            AND srp.perm_type = 3
-        ]]>
-        <include refid="common.post_sql"/>
-    </select>
-
-    <select id="getMaxDayPerms" parameterType="hashmap" resultType="String">
-        <include refid="common.pre_sql"/>
-        <![CDATA[
-        SELECT
-            DISTINCT srp.perm
-        FROM
-            sys_role_perm srp
-            LEFT JOIN sys_user_role sur ON sur.role_id = srp.role_id
-        WHERE
-            sur.user_id = #{userId}
-            AND srp.perm_type = 4
-        ]]>
-        <include refid="common.post_sql"/>
-    </select>
-
 </mapper>

@@ -178,20 +178,6 @@ public class SysUserServiceImpl implements SysUserService {
         return pm.findAll(SysUser.class);
     }
 
-    @Override
-    public List<String> getUserCategoryPerms(String userId) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("userId", userId);
-        return pm.getSqlSession().selectList("getCategoryPerms", params);
-    }
-
-    @Override
-    public List<String> getUserMaxDayPerms(String userId) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("userId", userId);
-        return pm.getSqlSession().selectList("getMaxDayPerms", params);
-    }
-
     public TreeNode buildMenuTree(final String pid, final List<SysResource> sysResources) {
 
         SysResource currentMenu = sysResources.stream().filter(sysMenu -> sysMenu.getId().equals(pid)).findFirst().get();
