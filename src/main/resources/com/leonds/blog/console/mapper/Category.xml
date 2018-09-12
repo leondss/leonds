@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.leonds.blog.console.mapper">
+
+    <select id="getCategories" parameterType="hashmap" resultType="hashmap">
+        <include refid="common.pre_sql"/>
+        SELECT
+            t.id,
+            t.code,
+            t.name,
+            t.pid,
+            (
+                SELECT
+                    count(1)
+                FROM
+                    category t1
+                WHERE
+                    t1.pid = t.id
+            ) AS child_num
+        FROM
+          category t
+        WHERE
+            1=1
+        <choose>
+            <when test="pid != null and pid != ''">
+                AND t.pid = #{pid}
+            </when>
+            <otherwise>
+                and (t.pid IS NULL OR t.pid = '')
+            </otherwise>
+        </choose>
+        <include refid="common.post_sql"/>
+    </select>
+
+</mapper>

@@ -4,6 +4,7 @@ package com.leonds.blog.console.service;
 import com.leonds.blog.domain.entity.Category;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Leon
@@ -23,5 +24,7 @@ public interface CategoryService {
     Category getById(String id);
 
     void remove(List<String> ids);
+
+    List<Map<String, Object>> getTreeByPid(String pid);
 
 }

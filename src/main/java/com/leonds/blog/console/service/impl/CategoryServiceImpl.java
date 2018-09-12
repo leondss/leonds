@@ -4,6 +4,7 @@ import com.leonds.blog.console.service.CategoryService;
 import com.leonds.blog.domain.entity.Category;
 import com.leonds.core.orm.Filters;
 import com.leonds.core.orm.PersistenceManager;
+import com.leonds.core.orm.SqlParams;
 import com.leonds.core.utils.CheckUtils;
 import com.leonds.core.utils.MessageUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Leon
@@ -70,5 +72,11 @@ public class CategoryServiceImpl implements CategoryService {
         if (ids != null && !ids.isEmpty()) {
             pm.remove(Category.class, ids);
         }
+    }
+
+    @Override
+    public List<Map<String, Object>> getTreeByPid(String pid) {
+        SqlParams sqlParams = SqlParams.instance().append("pid", pid);
+        return pm.find("getCategories", sqlParams);
     }
 }

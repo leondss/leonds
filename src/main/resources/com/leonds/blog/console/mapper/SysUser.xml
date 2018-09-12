@@ -11,19 +11,15 @@
         t.status,
         t.real_name,
         t.mobile,
-        t.creation_time,
-        ws.`name` AS store_name
+        t.creation_time
         FROM
         sys_user t
-        LEFT JOIN sys_user_store sur ON sur.user_id = t.id
-        LEFT JOIN wkl_store ws ON ws.id = sur.store_id
         WHERE 1=1
         <if test="text != null and text != ''">
             AND (
             t.username LIKE CONCAT('%',#{text},'%')
             OR t.real_name LIKE CONCAT('%',#{text},'%')
             OR t.mobile LIKE CONCAT('%',#{text},'%')
-            OR ws.name LIKE CONCAT('%',#{text},'%')
             )
         </if>
         <if test="status != null and status != ''">

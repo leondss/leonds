@@ -23,6 +23,11 @@ public class Category extends BaseEntity {
     @NotBlank(message = "{category.code.notBlank}")
     private String code;
 
+    @Length(max = 50)
+    private String pid;
+
+    private int position;
+
     @Column(name = "name", length = 50)
     public String getName() {
         return name;
@@ -39,5 +44,23 @@ public class Category extends BaseEntity {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    @Column(name = "pid", length = 50)
+    public String getPid() {
+        return pid;
+    }
+
+    public void setPid(String pid) {
+        this.pid = pid;
+    }
+
+    @Column(name = "position")
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 }
