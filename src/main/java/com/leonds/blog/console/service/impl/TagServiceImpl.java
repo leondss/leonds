@@ -55,4 +55,9 @@ public class TagServiceImpl implements TagService {
             pm.remove(Tag.class, ids);
         }
     }
+
+    @Override
+    public List<Tag> getAll() {
+        return pm.findAll(Tag.class);
+    }
 }

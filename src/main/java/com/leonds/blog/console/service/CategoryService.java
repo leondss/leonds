@@ -27,4 +27,6 @@ public interface CategoryService {
 
     List<Map<String, Object>> getTreeByPid(String pid);
 
+    List<Category> getAll();
+
 }

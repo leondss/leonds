@@ -20,4 +20,6 @@ public interface TagService {
 
     void remove(List<String> ids);
 
+    List<Tag> getAll();
+
 }

@@ -2,10 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.leonds.blog.console.mapper">
 
-    <select id="getCategories" parameterType="hashmap" resultType="hashmap">
-        <include refid="common.pre_sql"/>
-        SELECT * FROM category t ORDER BY t.position
-        <include refid="common.post_sql"/>
+    <select id="getSequence" parameterType="hashmap" resultType="string">
+       SELECT nextval(#{name})
     </select>
 
 </mapper>

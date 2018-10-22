@@ -18,6 +18,12 @@ public class TagController {
     @Autowired
     private TagService tagService;
 
+    @GetMapping("/list")
+    public Response list() {
+        List<Tag> result = tagService.getAll();
+        return Response.ok(result).build();
+    }
+
     @PostMapping("/save")
     public Response save(@RequestBody Tag tag) {
         Tag result = tagService.save(tag);

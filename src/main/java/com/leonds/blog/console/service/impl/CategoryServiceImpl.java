@@ -1,7 +1,9 @@
 package com.leonds.blog.console.service.impl;
 
 import com.leonds.blog.console.service.CategoryService;
+import com.leonds.blog.console.service.SequenceService;
 import com.leonds.blog.domain.entity.Category;
+import com.leonds.blog.domain.enums.Sequence;
 import com.leonds.core.orm.Filters;
 import com.leonds.core.orm.PersistenceManager;
 import com.leonds.core.orm.SqlParams;
@@ -23,6 +25,9 @@ public class CategoryServiceImpl implements CategoryService {
     @Autowired
     private PersistenceManager pm;
 
+    @Autowired
+    private SequenceService sequenceService;
+
     @Override
     public Category save(Category category) {
         CheckUtils.checkObject(category);
@@ -30,14 +35,10 @@ public class CategoryServiceImpl implements CategoryService {
             Category categoryOfName = getByIdIsNotAndName(category.getId(), category.getName());
             CheckUtils.checkState(categoryOfName == null, MessageUtils.get("category.name.exists"));
 
-            Category categoryOfCode = getByIdIsNotAndName(category.getId(), category.getCode());
-            CheckUtils.checkState(categoryOfCode == null, MessageUtils.get("category.code.exists"));
         } else {
             Category categoryOfName = getByName(category.getName());
             CheckUtils.checkState(categoryOfName == null, MessageUtils.get("category.name.exists"));
-
-            Category categoryOfCode = getByCode(category.getCode());
-            CheckUtils.checkState(categoryOfCode == null, MessageUtils.get("category.code.exists"));
+            category.setSn(sequenceService.getSequence(Sequence.SEQ_CATE.name()));
         }
         return pm.save(category);
     }
@@ -78,5 +79,10 @@ public class CategoryServiceImpl implements CategoryService {
     public List<Map<String, Object>> getTreeByPid(String pid) {
         SqlParams sqlParams = SqlParams.instance().append("pid", pid);
         return pm.find("getCategories", sqlParams);
+    }
+
+    @Override
+    public List<Category> getAll() {
+        return pm.find("getCategories", SqlParams.instance(), Category.class);
     }
 }

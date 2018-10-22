@@ -19,9 +19,7 @@ public class Category extends BaseEntity {
     @NotBlank(message = "{category.name.notBlank}")
     private String name;
 
-    @Length(max = 50)
-    @NotBlank(message = "{category.code.notBlank}")
-    private String code;
+    private String sn;
 
     @Length(max = 50)
     private String pid;
@@ -37,13 +35,13 @@ public class Category extends BaseEntity {
         this.name = name;
     }
 
-    @Column(name = "code", length = 50)
-    public String getCode() {
-        return code;
+    @Column(name = "sn", length = 50)
+    public String getSn() {
+        return sn;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setSn(String sn) {
+        this.sn = sn;
     }
 
     @Column(name = "pid", length = 50)
