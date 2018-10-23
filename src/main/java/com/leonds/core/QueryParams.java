@@ -6,10 +6,11 @@ import com.leonds.core.orm.PageRequest;
 /**
  * @author Leon
  */
-public abstract class QueryParams {
+public class QueryParams {
     private int page;
     private int size;
     private String orderBy;
+    private String q;
 
     public PageRequest pageRequest() {
         int p = page <= 0 ? 0 : page;
@@ -39,5 +40,13 @@ public abstract class QueryParams {
 
     public void setOrderBy(String orderBy) {
         this.orderBy = orderBy;
+    }
+
+    public String getQ() {
+        return q;
+    }
+
+    public void setQ(String q) {
+        this.q = q;
     }
 }
