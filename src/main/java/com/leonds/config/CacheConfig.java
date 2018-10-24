@@ -12,7 +12,6 @@ import java.util.Objects;
 @Configuration
 public class CacheConfig {
 
-
     @Bean
     public EhCacheManagerFactoryBean ehCacheManagerFactoryBean() {
         EhCacheManagerFactoryBean cacheManagerFactoryBean = new EhCacheManagerFactoryBean();

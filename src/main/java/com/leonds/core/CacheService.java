@@ -11,14 +11,14 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class CacheService {
-    public static final String CACHE_KEY = "users";
+    public static final String CACHE_USERS = "users";
+    public static final String CACHE_LOCAL = "local";
 
     @Autowired
     private CacheManager cacheManager;
 
-
     public SecurityContext getSecurityContext(String token) {
-        Cache users = cacheManager.getCache(CACHE_KEY);
+        Cache users = cacheManager.getCache(CACHE_USERS);
         if (users != null) {
             return users.get(token, SecurityContext.class);
         }
@@ -26,14 +26,14 @@ public class CacheService {
     }
 
     public void setSecurityContext(String token, SecurityContext securityContext) {
-        Cache users = cacheManager.getCache(CACHE_KEY);
+        Cache users = cacheManager.getCache(CACHE_USERS);
         if (users != null) {
             users.put(token, securityContext);
         }
     }
 
     public void removeSecurityContext(SecurityContext securityContext) {
-        Cache users = cacheManager.getCache(CACHE_KEY);
+        Cache users = cacheManager.getCache(CACHE_USERS);
         if (users != null) {
             users.evict(securityContext);
         }

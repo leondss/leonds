@@ -2,6 +2,7 @@ package com.leonds.blog.console.service.impl;
 
 import com.leonds.blog.console.service.SettingsService;
 import com.leonds.blog.domain.entity.Settings;
+import com.leonds.blog.domain.enums.SettingsName;
 import com.leonds.core.QueryParams;
 import com.leonds.core.orm.Condition;
 import com.leonds.core.orm.Filters;
@@ -11,6 +12,8 @@ import com.leonds.core.utils.CheckUtils;
 import com.leonds.core.utils.MessageUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,6 +28,7 @@ public class SettingsServiceImpl implements SettingsService {
     private PersistenceManager pm;
 
     @Override
+    @CacheEvict(value = "local", allEntries = true, beforeInvocation = true)
     public Settings save(Settings model) {
         CheckUtils.checkObject(model);
         Settings settingsOfName;
@@ -43,6 +47,16 @@ public class SettingsServiceImpl implements SettingsService {
         }
         CheckUtils.checkState(settingsOfCode == null, MessageUtils.get("settings.name.exists"));
         return pm.save(model);
+    }
+
+    @Override
+    @Cacheable(value = "local", key = "#settingsName.name()")
+    public String getValue(SettingsName settingsName) {
+        Settings settings = pm.findOne(Settings.class, Filters.and(Filters.eq("code", settingsName.name())));
+        if (settings != null) {
+            return settings.getValue();
+        }
+        return null;
     }
 
     @Override
@@ -71,6 +85,7 @@ public class SettingsServiceImpl implements SettingsService {
     }
 
     @Override
+    @CacheEvict(value = "local", allEntries = true, beforeInvocation = true)
     public void remove(List<String> ids) {
         if (ids != null && !ids.isEmpty()) {
             pm.remove(Settings.class, ids);

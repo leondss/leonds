@@ -2,6 +2,7 @@ package com.leonds.blog.console.service;
 
 
 import com.leonds.blog.domain.entity.Settings;
+import com.leonds.blog.domain.enums.SettingsName;
 import com.leonds.core.QueryParams;
 import com.leonds.core.orm.Page;
 
@@ -12,6 +13,8 @@ import java.util.List;
  */
 public interface SettingsService {
     Settings save(Settings model);
+
+    String getValue(SettingsName settingsName);
 
     Settings getByName(String name);
 
