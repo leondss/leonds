@@ -19,10 +19,16 @@ public class Posts extends BaseEntity {
     @NotBlank(message = "{posts.title.notBlank}")
     private String title;
     @NotBlank(message = "{posts.content.notBlank}")
-    private String content;
-    private String html;
+    private String contentMd;
+    @NotBlank(message = "{posts.content.notBlank}")
+    private String contentHtml;
     private int goodCount;
     private int badCount;
+    private int commentsCount;
+    private int viewCount;
+    private int commentsStatus;
+    private int topStatus;
+    private String channel;
     private int status;
     private Date publishTime;
 
@@ -44,22 +50,22 @@ public class Posts extends BaseEntity {
         this.title = title;
     }
 
-    @Column(name = "content")
-    public String getContent() {
-        return content;
+    @Column(name = "content_md")
+    public String getContentMd() {
+        return contentMd;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setContentMd(String contentMd) {
+        this.contentMd = contentMd;
     }
 
-    @Column(name = "html")
-    public String getHtml() {
-        return html;
+    @Column(name = "content_html")
+    public String getContentHtml() {
+        return contentHtml;
     }
 
-    public void setHtml(String html) {
-        this.html = html;
+    public void setContentHtml(String contentHtml) {
+        this.contentHtml = contentHtml;
     }
 
     @Column(name = "good_count")
@@ -78,6 +84,51 @@ public class Posts extends BaseEntity {
 
     public void setBadCount(int badCount) {
         this.badCount = badCount;
+    }
+
+    @Column(name = "comments_count")
+    public int getCommentsCount() {
+        return commentsCount;
+    }
+
+    public void setCommentsCount(int commentsCount) {
+        this.commentsCount = commentsCount;
+    }
+
+    @Column(name = "view_count")
+    public int getViewCount() {
+        return viewCount;
+    }
+
+    public void setViewCount(int viewCount) {
+        this.viewCount = viewCount;
+    }
+
+    @Column(name = "comments_status")
+    public int getCommentsStatus() {
+        return commentsStatus;
+    }
+
+    public void setCommentsStatus(int commentsStatus) {
+        this.commentsStatus = commentsStatus;
+    }
+
+    @Column(name = "top_status")
+    public int getTopStatus() {
+        return topStatus;
+    }
+
+    public void setTopStatus(int topStatus) {
+        this.topStatus = topStatus;
+    }
+
+    @Column(name = "channel")
+    public String getChannel() {
+        return channel;
+    }
+
+    public void setChannel(String channel) {
+        this.channel = channel;
     }
 
     @Column(name = "status")

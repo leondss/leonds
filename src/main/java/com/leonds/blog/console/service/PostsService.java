@@ -19,4 +19,5 @@ public interface PostsService {
 
     Posts get(String id);
 
+    PostsDto getPostsDto(String id);
 }

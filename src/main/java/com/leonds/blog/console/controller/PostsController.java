@@ -23,7 +23,8 @@ public class PostsController {
 
     @PostMapping("/save")
     public Response save(@RequestBody PostsDto dto) {
-        Posts result = postsService.save(dto);
+        Posts posts = postsService.save(dto);
+        PostsDto result = postsService.getPostsDto(posts.getId());
         return Response.ok(result).build();
     }
 
@@ -39,7 +40,7 @@ public class PostsController {
 
     @GetMapping("/{id}")
     public Response get(@PathVariable("id") String id) {
-        Posts result = postsService.get(id);
+        PostsDto result = postsService.getPostsDto(id);
         return Response.ok(result).build();
     }
 
