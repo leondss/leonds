@@ -2,10 +2,10 @@ spring:
   thymeleaf:
     cache: false
   datasource:
-    name: wkl
-    url: jdbc:mysql://localhost:3306/leonds?useUnicode=true&characterEncoding=utf8&useSSL=false
+    name: leonds
+    url: jdbc:mysql://193.112.112.236:3306/leonds?useUnicode=true&characterEncoding=utf8&useSSL=false
     username: root
-    password:
+    password: RootRoot#001
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       connection-test-query: SELECT 1
@@ -16,7 +16,7 @@ spring:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
   application:
-    name: wkl
+    name: leonds
   http:
     encoding:
       charset: utf-8
@@ -40,5 +40,5 @@ logging:
 app:
   file-location: D:\data\files\
   jwt:
-    header: Wkl-Auth-Token
+    header: Leonds-Auth-Token
     secret: 1234eresdf56dfsdfsd#www.leonds.com@1223wkl#7890!@#$%^&*()/.,'][;

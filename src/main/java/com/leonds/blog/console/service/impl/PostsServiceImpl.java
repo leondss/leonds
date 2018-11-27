@@ -15,6 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,6 +39,9 @@ public class PostsServiceImpl implements PostsService {
 
         if (StringUtils.isBlank(posts.getId())) {
             posts.setSn(sequenceService.getSequence(Sequence.SEQ_POSTS.name()));
+            if (posts.getStatus() == PostsStatus.PUBLISH.getCode()) {
+                posts.setPublishTime(new Date());
+            }
         }
 
         Posts postsNew = pm.save(posts);
@@ -78,6 +82,8 @@ public class PostsServiceImpl implements PostsService {
     public void remove(String id) {
         Posts posts = get(id);
         if (posts.getStatus() == PostsStatus.DRAFT.getCode()) {
+            pm.remove(CategoryRel.class, Filters.and(Filters.eq("posts_id", id)));
+            pm.remove(TagRel.class, Filters.and(Filters.eq("posts_id", id)));
             pm.remove(Posts.class, id);
         }
     }
@@ -98,5 +104,17 @@ public class PostsServiceImpl implements PostsService {
         List<TagRel> tags = pm.find(TagRel.class, Filters.and(Filters.eq("posts_id", id)));
         dto.setTag(tags.stream().map(TagRel::getTagId).collect(Collectors.toList()));
         return dto;
+    }
+
+    @Override
+    public void updatePostsStatus(String id, PostsStatus postsStatus) {
+        Posts posts = get(id);
+        if (posts != null) {
+            posts.setStatus(postsStatus.getCode());
+            if (postsStatus.getCode() == PostsStatus.PUBLISH.getCode()) {
+                posts.setPublishTime(new Date());
+            }
+            pm.save(posts);
+        }
     }
 }

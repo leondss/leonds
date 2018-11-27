@@ -3,6 +3,7 @@ package com.leonds.blog.console.controller;
 import com.leonds.blog.console.service.PostsService;
 import com.leonds.blog.domain.dto.PostsDto;
 import com.leonds.blog.domain.entity.Posts;
+import com.leonds.blog.domain.enums.PostsStatus;
 import com.leonds.core.orm.Page;
 import com.leonds.core.orm.PageRequest;
 import com.leonds.core.resp.Response;
@@ -52,4 +53,23 @@ public class PostsController {
         return Response.ok(result).build();
     }
 
+    @PostMapping("/publish")
+    public Response publish(@RequestBody List<String> ids) {
+        if (ids != null && !ids.isEmpty()) {
+            for (String id : ids) {
+                postsService.updatePostsStatus(id, PostsStatus.PUBLISH);
+            }
+        }
+        return Response.ok().build();
+    }
+
+    @PostMapping("/out")
+    public Response out(@RequestBody List<String> ids) {
+        if (ids != null && !ids.isEmpty()) {
+            for (String id : ids) {
+                postsService.updatePostsStatus(id, PostsStatus.DRAFT);
+            }
+        }
+        return Response.ok().build();
+    }
 }

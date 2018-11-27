@@ -3,6 +3,7 @@ package com.leonds.blog.console.service;
 
 import com.leonds.blog.domain.dto.PostsDto;
 import com.leonds.blog.domain.entity.Posts;
+import com.leonds.blog.domain.enums.PostsStatus;
 import com.leonds.core.orm.Page;
 import com.leonds.core.orm.PageRequest;
 
@@ -20,4 +21,6 @@ public interface PostsService {
     Posts get(String id);
 
     PostsDto getPostsDto(String id);
+
+    void updatePostsStatus(String id, PostsStatus postsStatus);
 }
