@@ -3,9 +3,9 @@ spring:
     cache: false
   datasource:
     name: leonds
-    url: jdbc:mysql://193.112.112.236:3306/leonds?useUnicode=true&characterEncoding=utf8&useSSL=false
+    url: jdbc:mysql://localhost:3306/leonds?useUnicode=true&characterEncoding=utf8&useSSL=false
     username: root
-    password: RootRoot#001
+    password:
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       connection-test-query: SELECT 1
