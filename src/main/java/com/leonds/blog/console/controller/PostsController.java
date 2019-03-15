@@ -1,7 +1,9 @@
 package com.leonds.blog.console.controller;
 
+import com.leonds.blog.console.service.PostsGitService;
 import com.leonds.blog.console.service.PostsService;
 import com.leonds.blog.domain.dto.PostsDto;
+import com.leonds.blog.domain.dto.PostsFiles;
 import com.leonds.blog.domain.entity.Posts;
 import com.leonds.blog.domain.enums.PostsStatus;
 import com.leonds.core.orm.Page;
@@ -21,6 +23,9 @@ public class PostsController {
 
     @Autowired
     private PostsService postsService;
+
+    @Autowired
+    private PostsGitService postsGitService;
 
     @PostMapping("/save")
     public Response save(@RequestBody PostsDto dto) {
@@ -71,5 +76,17 @@ public class PostsController {
             }
         }
         return Response.ok().build();
+    }
+
+    @GetMapping("/clone")
+    public Response clonePosts() {
+        postsGitService.clonePosts();
+        return Response.ok().build();
+    }
+
+    @GetMapping("/files")
+    public Response getLocalFiles(String dir) {
+        List<PostsFiles> posts = postsGitService.getPosts(dir);
+        return Response.ok(posts).build();
     }
 }
