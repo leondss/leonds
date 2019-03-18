@@ -18,9 +18,7 @@ public class Posts extends BaseEntity {
     private String sn;
     @NotBlank(message = "{posts.title.notBlank}")
     private String title;
-    @NotBlank(message = "{posts.content.notBlank}")
     private String contentMd;
-    @NotBlank(message = "{posts.content.notBlank}")
     private String contentHtml;
     private int goodCount;
     private int badCount;
@@ -31,6 +29,7 @@ public class Posts extends BaseEntity {
     private String channel;
     private int status;
     private Date publishTime;
+    private String filePath;
 
     @Column(name = "sn")
     public String getSn() {
@@ -147,5 +146,14 @@ public class Posts extends BaseEntity {
 
     public void setPublishTime(Date publishTime) {
         this.publishTime = publishTime;
+    }
+
+    @Column(name = "file_path")
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
     }
 }

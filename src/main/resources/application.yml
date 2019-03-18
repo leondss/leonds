@@ -1,11 +1,14 @@
 spring:
   thymeleaf:
     cache: false
+  devtools:
+    restart:
+      enabled: true
   datasource:
     name: leonds
-    url: jdbc:mysql://localhost:3306/leonds?useUnicode=true&characterEncoding=utf8&useSSL=false
+    url: jdbc:mysql://193.112.112.236:3306/leonds?useUnicode=true&characterEncoding=utf8&useSSL=false
     username: root
-    password:
+    password: xiaopohai!0A
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       connection-test-query: SELECT 1
@@ -39,6 +42,9 @@ logging:
   file: D:\logs\leonds\leonds.log
 app:
   file-location: D:\data\files\
+  git:
+    remote: https://github.com/leondss/articles.git
+    local: D:\data\articles
   jwt:
     header: Leonds-Auth-Token
     secret: 1234eresdf56dfsdfsd#www.leonds.com@1223wkl#7890!@#$%^&*()/.,'][;

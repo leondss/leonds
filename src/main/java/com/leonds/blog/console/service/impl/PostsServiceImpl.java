@@ -8,13 +8,20 @@ import com.leonds.blog.domain.entity.Posts;
 import com.leonds.blog.domain.entity.TagRel;
 import com.leonds.blog.domain.enums.PostsStatus;
 import com.leonds.blog.domain.enums.Sequence;
+import com.leonds.core.ServiceException;
 import com.leonds.core.orm.*;
 import com.leonds.core.utils.CheckUtils;
 import com.leonds.core.utils.MessageUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.pegdown.PegDownProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -41,6 +48,23 @@ public class PostsServiceImpl implements PostsService {
             posts.setSn(sequenceService.getSequence(Sequence.SEQ_POSTS.name()));
             if (posts.getStatus() == PostsStatus.PUBLISH.getCode()) {
                 posts.setPublishTime(new Date());
+            }
+        }
+        if (StringUtils.isNotBlank(posts.getFilePath())) {
+            try {
+
+                BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(posts.getFilePath()), StandardCharsets.UTF_8));
+                String line;
+                StringBuilder mdContent = new StringBuilder();
+                while ((line = br.readLine()) != null) {
+                    mdContent.append(line).append("\r\n");
+                }
+                PegDownProcessor pdp = new PegDownProcessor(Integer.MAX_VALUE);
+                String htmlContent = pdp.markdownToHtml(mdContent.toString());
+                posts.setContentMd(mdContent.toString());
+                posts.setContentHtml(htmlContent);
+            } catch (IOException e) {
+                throw new ServiceException("解析markdown出错");
             }
         }
 

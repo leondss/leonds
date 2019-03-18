@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,9 +27,17 @@ public class PostsGitServiceImpl implements PostsGitService {
     @Override
     public void clonePosts() {
         try {
-            Git.cloneRepository().setURI(remote).setDirectory(new File(local)).call();
+            File file = new File(local);
+            File gitFile = new File(file, ".git");
+            if (gitFile.exists()) {
+                Git.open(file).pull().call();
+            } else {
+                Git.cloneRepository().setURI(remote).setDirectory(file).call();
+            }
         } catch (GitAPIException e) {
             throw new ServiceException("Clone出错：", e);
+        } catch (IOException e) {
+            throw new ServiceException("Pull出错：", e);
         }
     }
 
