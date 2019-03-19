@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.leonds.blog.www.mapper">
+
+    <select id="getPostsPage" parameterType="hashmap" resultType="hashmap">
+        <include refid="common.pre_sql"/>
+        SELECT
+        t.id,
+        t.title,
+        DATE_FORMAT(t.publish_time,'%Y-%m-%d %H:%i') AS publish_time,
+        t.view_count,
+        t.comments_count,
+        ct.`name` AS category_name,
+        group_concat( tg.`name` ORDER BY tg.`name` ) AS tag_name
+        FROM
+        posts t
+        LEFT JOIN category_rel cr ON cr.posts_id = t.id
+        LEFT JOIN category ct ON ct.id = cr.category_id
+        LEFT JOIN tag_rel tr ON tr.posts_id = t.id
+        LEFT JOIN tag tg ON tg.id = tr.tag_id
+        WHERE
+        1 = 1
+        AND t.`status` = 2
+        AND t.channel = 'PC'
+        <if test="cate != null and cate != ''">
+        AND ct.`name` = #{cate}
+        </if>
+        <if test="tag != null and tag != ''">
+            AND tg.`name` = #{tag}
+        </if>
+        GROUP BY
+        t.id,
+        t.title,
+        t.publish_time,
+        t.view_count,
+        t.comments_count,
+        ct.`name`
+        ORDER BY
+        t.publish_time DESC
+        <include refid="common.post_sql"/>
+    </select>
+
+    <select id="getPostsDetail" parameterType="hashmap" resultType="hashmap">
+        <include refid="common.pre_sql"/>
+        SELECT
+        t.id,
+        t.title,
+        t.content_html,
+        DATE_FORMAT(t.publish_time,'%Y-%m-%d %H:%i') AS publish_time,
+        t.comments_status,
+        t.view_count,
+        t.comments_count,
+        ct.`name` AS category_name,
+        group_concat( tg.`name` ORDER BY tg.`name` ) AS tag_name
+        FROM
+        posts t
+        LEFT JOIN category_rel cr ON cr.posts_id = t.id
+        LEFT JOIN category ct ON ct.id = cr.category_id
+        LEFT JOIN tag_rel tr ON tr.posts_id = t.id
+        LEFT JOIN tag tg ON tg.id = tr.tag_id
+        WHERE t.id = #{id}
+        GROUP BY
+        t.id,
+        t.title,
+        t.content_html,
+        t.publish_time,
+        t.comments_status,
+        t.view_count,
+        t.comments_count,
+        ct.`name`
+        <include refid="common.post_sql"/>
+    </select>
+
+</mapper>

@@ -30,6 +30,7 @@ public class Posts extends BaseEntity {
     private int status;
     private Date publishTime;
     private String filePath;
+    private String intro;
 
     @Column(name = "sn")
     public String getSn() {
@@ -155,5 +156,14 @@ public class Posts extends BaseEntity {
 
     public void setFilePath(String filePath) {
         this.filePath = filePath;
+    }
+
+    @Column(name = "intro")
+    public String getIntro() {
+        return intro;
+    }
+
+    public void setIntro(String intro) {
+        this.intro = intro;
     }
 }

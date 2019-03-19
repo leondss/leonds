@@ -1,6 +1,8 @@
 package com.leonds.config;
 
+import com.leonds.core.OperatorServiceImpl;
 import com.leonds.core.orm.MyMapWrapperFactory;
+import com.leonds.core.orm.OperatorService;
 import com.leonds.core.orm.PersistenceManagerImpl;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -46,9 +48,15 @@ public class MyBatisConfig {
     }
 
     @Bean
-    public PersistenceManagerImpl persistenceManager(SqlSessionFactory sqlSessionFactory) {
+    public OperatorService operatorService() {
+        return new OperatorServiceImpl();
+    }
+
+    @Bean
+    public PersistenceManagerImpl persistenceManager(SqlSessionFactory sqlSessionFactory, OperatorService operatorService) {
         PersistenceManagerImpl persistenceManager = new PersistenceManagerImpl();
         persistenceManager.setSqlSessionFactory(sqlSessionFactory);
+        persistenceManager.setOperatorService(operatorService);
         return persistenceManager;
     }
 

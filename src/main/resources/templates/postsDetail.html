@@ -112,27 +112,20 @@
             }
         </style>
     </noscript>
+
     <style>
-        .posts-expand .post-eof {
-            margin: 5px auto 5px;
-            width: 100%;
-        }
-
-        .posts-expand .post-title {
-            text-align: left;
-        }
-
-        .posts-expand .post-meta {
-            margin: 3px 0 10px 0;
-            text-align: left;
+        .post-body {
+            font-family: 'Monda', "PingFang SC", "Microsoft YaHei", sans-serif;
+            font-size: 14px;
         }
     </style>
+
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
 
 
-<div class="container sidebar-position-left page-home">
+<div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <div th:include="header"></div>
@@ -141,15 +134,11 @@
         <div class="main-inner">
             <div class="content-wrap">
                 <div id="content" class="content">
-                    <section id="posts" class="posts-expand">
-                        <article th:each="posts:${posts.rows}" class="post post-type-normal" itemscope
-                                 itemtype="http://schema.org/Article">
+                    <div id="posts" class="posts-expand">
+                        <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
                             <div class="post-block">
                                 <header class="post-header">
-                                    <h1 class="post-title" itemprop="name headline">
-                                        <a th:href="@{'/item/'+${posts.id}}" th:text="${posts.title}"
-                                           class="post-title-link" itemprop="url"></a>
-                                    </h1>
+                                    <h1 class="post-title" itemprop="name headline" th:text="${posts.title}"></h1>
 
                                     <div class="post-meta">
                                         <span class="post-time">
@@ -177,7 +166,7 @@
                                             <span class="post-meta-item-icon">
                                               <i class="fa fa-comment-o"></i>
                                             </span>
-                                            <a th:href="@{'/item/'+${posts.id}+'#comments'}"
+                                            <a href="#comments"
                                                itemprop="discussionUrl">
                                                 <span class="post-meta-item-text">评论数 </span>
                                                 <span class="post-comments-count disqus-comment-count"
@@ -194,29 +183,61 @@
                                         </span>
                                     </div>
                                 </header>
+
+                                <div class="post-body" itemprop="articleBody" th:utext="${posts.contentHtml}">
+
+                                </div>
+
+                                <div>
+                                    <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+                                        <div>Donate comment here</div>
+                                        <button id="rewardButton"
+                                                onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+                                            <span>打赏</span>
+                                        </button>
+                                        <div id="QR" style="display: none;">
+                                            <div id="wechat" style="display: inline-block">
+                                                <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Leon 微信支付">
+                                                <p>微信支付</p>
+                                            </div>
+
+                                            <div id="alipay" style="display: inline-block">
+                                                <img id="alipay_qr" src="/images/alipay.jpg" alt="Leon 支付宝">
+                                                <p>支付宝</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
                                 <footer class="post-footer">
-                                    <div class="post-eof"></div>
+                                    <div th:if="${!#strings.isEmpty(posts.tagName)}" class="post-tags">
+                                        <a th:each="tag:${posts.tagName.split(',')}" th:href="@{'/tags/'+${tag}}" th:text="${'# ' + tag}" rel="tag"></a>
+                                    </div>
+                                    <!--上下个-->
+                                    <!--<div class="post-nav">
+                                        <div class="post-nav-next post-nav-item">
+
+                                        </div>
+
+                                        <span class="post-nav-divider"></span>
+
+                                        <div class="post-nav-prev post-nav-item">
+
+                                            <a href="/2019/03/18/hello-world - 副本/" rel="prev" title="Hello World">
+                                                Hello World <i class="fa fa-chevron-right"></i>
+                                            </a>
+
+                                        </div>
+                                    </div>-->
                                 </footer>
                             </div>
                         </article>
-                    </section>
-
-
-                    <nav class="pagination">
-                        <!--<span style="font-size: 16px;margin-top: 3px;"
-                              th:text="${(posts.page+1) +'/'+ posts.totalPages}">1/2</span>-->
-                        <a class="page-button disable-link" th:if="${posts.page - 1 < 0}" disabled>上一页</a>
-                        <a class="page-button disable-link" th:if="${posts.page + 1 >= posts.totalPages}"
-                           disabled>下一页</a>
-
-                        <a class="page-button" th:if="${posts.page - 1>= 0}"
-                           th:href="${'/?size=15&page=' + (posts.page - 1)}">上一页</a>
-                        <a class="page-button" th:if="${posts.page + 1 < posts.totalPages}"
-                           th:href="${'/?size=15&page=' + (posts.page + 1)}">下一页</a>
-                    </nav>
+                    </div>
                 </div>
             </div>
-            <div th:include="aside::leftLayout('index')"></div>
+
+            <div th:include="aside::leftLayout('item')"></div>
         </div>
     </main>
 
@@ -237,6 +258,8 @@
 <script src="/js/src/motion.js"></script>
 <script src="/js/src/affix.js"></script>
 <script src="/js/src/schemes/pisces.js"></script>
+<script src="/js/src/scrollspy.js"></script>
+<script src="/js/src/post-details.js"></script>
 <script src="/js/src/bootstrap.js"></script>
 
 </body>
