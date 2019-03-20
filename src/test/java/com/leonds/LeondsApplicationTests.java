@@ -6,6 +6,7 @@ import com.leonds.blog.domain.enums.Sequence;
 import org.eclipse.jgit.api.Git;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.pegdown.PegDownProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -44,7 +45,16 @@ public class LeondsApplicationTests {
 
     @Test
     public void testaa() {
-        postsService.get("123123");
+        String md = "This is *Sparta* # 标题一";
+//        Parser parser = Parser.builder().build();
+//        Node document = parser.parse(md);
+//        HtmlRenderer renderer = HtmlRenderer.builder().build();
+//        String render = renderer.render(document);
+//        System.err.println(render);
+
+        PegDownProcessor pdp = new PegDownProcessor(Integer.MAX_VALUE);
+        String htmlContent = pdp.markdownToHtml(md);
+        System.err.println(htmlContent);
     }
 
 }
