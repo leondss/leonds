@@ -68,4 +68,9 @@ public class FrontPostsServiceImpl implements FrontPostsService {
     public int getCategoryCount() {
         return pm.count(Category.class, null);
     }
+
+    @Override
+    public List<Map<String, Object>> getLinks() {
+        return pm.find("getLinks", SqlParams.instance());
+    }
 }

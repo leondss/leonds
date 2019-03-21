@@ -3,7 +3,7 @@ var Services = {
         return parseInt(Math.random() * (max - min + 1) + min, 10);
     },
     getTags: function () {
-        $.get('/tag/all', function (res) {
+        $.get('/frontend/tags', function (res) {
             if (res) {
                 var colors = ['#8e8e8e', '#ccc', '#4f4f4f', '#bcbcbc', '#404040', '#111', '#5f5f5f']
                 var html = ''
@@ -19,7 +19,7 @@ var Services = {
         })
     },
     getIndexCount: function () {
-        $.get('/index/count', function (res) {
+        $.get('/frontend/rpt', function (res) {
             if (res) {
                 $('#countCate').text(res['cateCount']);
                 $('#countPosts').text(res['postsCount']);
@@ -34,6 +34,20 @@ var Services = {
                 $(this).parent().addClass('menu-item-active').siblings().removeClass('menu-item-active');
             }
         })
+    },
+    getLinks: function () {
+        $.get('/frontend/links', function (res) {
+            if (res) {
+                var html = ''
+                for (var i = 0; i < res.length; i++) {
+                    var item = res[i]
+                    html += '<li class="links-of-blogroll-item">\n' +
+                        '   <a href="' + item.siteUrl + '" title="' + item.siteUrl + '" rel="noopener" target="_blank">' + item.siteName + '</a>\n' +
+                        '</li>'
+                }
+                $('#links').append(html)
+            }
+        })
     }
 }
 
@@ -41,4 +55,5 @@ var Services = {
 $(function () {
     Services.getIndexCount();
     Services.activeMenu();
+    Services.getLinks();
 })
