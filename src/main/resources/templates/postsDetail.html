@@ -2,123 +2,9 @@
 
 <html class="theme-next pisces use-motion" lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta name="generator" content="Hexo 3.8.0">
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-    <meta name="theme-color" content="#222">
-
-
-    <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
-
-    <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
-    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
-    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
-    <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
-
-    <script id="hexo.configurations">
-        var NexT = window.NexT || {};
-        var CONFIG = {
-            root: '/',
-            scheme: 'Pisces',
-            version: '7.0.1',
-            sidebar: {
-                "position": "left",
-                "display": "post",
-                "offset": 12,
-                "b2t": false,
-                "scrollpercent": false,
-                "onmobile": false,
-                "dimmer": false
-            },
-            fancybox: false,
-            fastclick: false,
-            lazyload: false,
-            tabs: true,
-            motion: {
-                "enable": true,
-                "async": false,
-                "transition": {
-                    "post_block": "fadeIn",
-                    "post_header": "slideDownIn",
-                    "post_body": "slideDownIn",
-                    "coll_header": "slideLeftIn",
-                    "sidebar": "slideUpIn"
-                }
-            },
-            algolia: {
-                applicationID: '',
-                apiKey: '',
-                indexName: '',
-                hits: {"per_page": 10},
-                labels: {
-                    "input_placeholder": "Search for Posts",
-                    "hits_empty": "We didn't find any results for the search: ${query}",
-                    "hits_stats": "${hits} results found in ${time} ms"
-                }
-            }
-        };
-    </script>
-
-
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Leonds">
-    <meta property="og:url" content="http://leonds.com/index.html">
-    <meta property="og:site_name" content="Leonds">
-    <meta property="og:locale" content="zh-CN">
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Leonds">
-
-    <link rel="canonical" href="http://leonds.com/">
-
-    <script id="page.configurations">
-        CONFIG.page = {
-            sidebar: "",
-        };
-    </script>
+    <div th:replace="common/headBody"></div>
 
     <title>Leonds</title>
-
-    <noscript>
-        <style>
-            .use-motion .motion-element,
-            .use-motion .brand,
-            .use-motion .menu-item,
-            .sidebar-inner,
-            .use-motion .post-block,
-            .use-motion .pagination,
-            .use-motion .comments,
-            .use-motion .post-header,
-            .use-motion .post-body,
-            .use-motion .collection-title {
-                opacity: initial;
-            }
-
-            .use-motion .logo,
-            .use-motion .site-title,
-            .use-motion .site-subtitle {
-                opacity: initial;
-                top: initial;
-            }
-
-            .use-motion .logo-line-before i {
-                left: initial;
-            }
-
-            .use-motion .logo-line-after i {
-                right: initial;
-            }
-        </style>
-    </noscript>
-
-    <style>
-        .post-body {
-            font-family: 'Monda', "PingFang SC", "Microsoft YaHei", sans-serif;
-            font-size: 14px;
-        }
-    </style>
 
 </head>
 
@@ -128,7 +14,7 @@
 <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
-    <div th:include="header"></div>
+    <div th:replace="common/header"></div>
 
     <main id="main" class="main">
         <div class="main-inner">
@@ -155,7 +41,7 @@
                                             </span>
                                             <span class="post-meta-item-text">分类于</span>
                                             <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                                                <a th:href="@{'/cate/'+${posts.categoryName}}"
+                                                <a th:href="@{'/categories/'+${posts.categoryName}}"
                                                    itemprop="url" rel="index">
                                                     <span itemprop="name" th:text="${posts.categoryName}"></span>
                                                 </a>
@@ -188,7 +74,8 @@
 
                                 </div>
 
-                                <div>
+                                <!--打赏-->
+                                <!--<div>
                                     <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
                                         <div>Donate comment here</div>
                                         <button id="rewardButton"
@@ -207,12 +94,12 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div>-->
 
 
                                 <footer class="post-footer">
                                     <div th:if="${!#strings.isEmpty(posts.tagName)}" class="post-tags">
-                                        <a th:each="tag:${posts.tagName.split(',')}" th:href="@{'/tags/'+${tag}}" th:text="${'# ' + tag}" rel="tag"></a>
+                                        <a th:each="tag:${posts.tagName.split(',')}" th:href="@{'/tag/'+${tag}}" th:text="${'# ' + tag}" rel="tag"></a>
                                     </div>
                                     <!--上下个-->
                                     <!--<div class="post-nav">
@@ -237,30 +124,14 @@
                 </div>
             </div>
 
-            <div th:include="aside::leftLayout('item')"></div>
+            <div th:include="common/aside::leftLayout('item')"></div>
         </div>
     </main>
 
-    <div th:include="footer"></div>
+    <div th:replace="common/footer"></div>
 </div>
 
-
-<script>
-    if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-        window.Promise = null;
-    }
-</script>
-
-<script src="/lib/jquery/index.js"></script>
-<script src="/lib/velocity/velocity.min.js"></script>
-<script src="/lib/velocity/velocity.ui.min.js"></script>
-<script src="/js/src/utils.js"></script>
-<script src="/js/src/motion.js"></script>
-<script src="/js/src/affix.js"></script>
-<script src="/js/src/schemes/pisces.js"></script>
-<script src="/js/src/scrollspy.js"></script>
-<script src="/js/src/post-details.js"></script>
-<script src="/js/src/bootstrap.js"></script>
+<div th:replace="common/js"></div>
 
 </body>
 </html>

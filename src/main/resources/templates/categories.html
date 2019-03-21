@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 
+
 <html class="theme-next pisces use-motion" lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
     <div th:replace="common/headBody"></div>
 
-    <title>tags | Leonds</title>
+    <title>Leonds</title>
+
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
@@ -22,11 +24,19 @@
                     <div id="posts" class="posts-expand">
                         <div class="post-block page">
                             <div class="post-body">
-                                <div class="tag-cloud">
-                                    <div class="tag-cloud-title">
-
+                                <div class="category-all-page">
+                                    <div class="category-all-title">
+                                        目前共计 ${categoryCount} 个分类
                                     </div>
-                                    <div class="tag-cloud-tags">
+                                    <div class="category-all">
+                                        <ul class="category-list">
+                                            <li class="category-list-item" th:each="item:${categories}">
+                                                <a class="category-list-link"
+                                                   th:href="${'/categories/' + item.category}"
+                                                   th:text="${item.category}"></a>
+                                                <span class="category-list-count" th:text="${item.countPosts}"></span>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
@@ -34,21 +44,15 @@
                     </div>
                 </div>
             </div>
-
-            <div th:include="common/aside"></div>
-
+            <div th:replace="common/aside::leftLayout('index')"></div>
         </div>
     </main>
 
     <div th:replace="common/footer"></div>
+
 </div>
 
 <div th:replace="common/js"></div>
 
-<script>
-    $(function () {
-        Services.getTags()
-    })
-</script>
 </body>
 </html>

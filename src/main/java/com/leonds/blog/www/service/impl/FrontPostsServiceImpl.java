@@ -1,6 +1,7 @@
 package com.leonds.blog.www.service.impl;
 
 import com.leonds.blog.domain.dto.PostsQueryDto;
+import com.leonds.blog.domain.entity.Category;
 import com.leonds.blog.domain.entity.Posts;
 import com.leonds.blog.domain.entity.PostsOptLog;
 import com.leonds.blog.www.service.FrontPostsService;
@@ -51,5 +52,20 @@ public class FrontPostsServiceImpl implements FrontPostsService {
                 pm.save(postsOptLog);
             }
         }
+    }
+
+    @Override
+    public Map<String, Object> getIndexCount() {
+        return pm.findOne("getIndexCount", SqlParams.instance());
+    }
+
+    @Override
+    public List<Map<String, Object>> getCategoryGroup() {
+        return pm.find("getCategoryCount", SqlParams.instance());
+    }
+
+    @Override
+    public int getCategoryCount() {
+        return pm.count(Category.class, null);
     }
 }

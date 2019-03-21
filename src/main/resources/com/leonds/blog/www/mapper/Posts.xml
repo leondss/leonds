@@ -23,7 +23,7 @@
         AND t.`status` = 2
         AND t.channel = 'PC'
         <if test="cate != null and cate != ''">
-        AND ct.`name` = #{cate}
+            AND ct.`name` = #{cate}
         </if>
         <if test="tag != null and tag != ''">
             AND tg.`name` = #{tag}
@@ -68,6 +68,29 @@
         t.view_count,
         t.comments_count,
         ct.`name`
+        <include refid="common.post_sql"/>
+    </select>
+
+    <select id="getIndexCount" parameterType="hashmap" resultType="hashmap">
+        <include refid="common.pre_sql"/>
+        SELECT
+        ( SELECT count( 1 ) FROM posts t WHERE t.`status` = 2 AND t.channel = 'PC' ) AS posts_count,
+        ( SELECT count( 1 ) FROM category ) AS cate_count,
+        ( SELECT count( 1 ) FROM tag ) AS tag_count
+        <include refid="common.post_sql"/>
+    </select>
+
+    <select id="getCategoryCount" parameterType="hashmap" resultType="hashmap">
+        <include refid="common.pre_sql"/>
+        SELECT
+        c.`name` AS category,
+        count( p.id ) AS count_posts
+        FROM
+        category c
+        LEFT JOIN category_rel cr ON cr.category_id = c.id
+        LEFT JOIN posts p ON p.id = cr.posts_id
+        GROUP BY
+        c.`name`
         <include refid="common.post_sql"/>
     </select>
 

@@ -17,3 +17,22 @@
     cursor: pointer;
     pointer-events: none;
 }
+
+.posts-expand .post-eof {
+    margin: 5px auto 5px;
+    width: 100%;
+}
+
+.posts-expand .post-title {
+    text-align: left;
+}
+
+.posts-expand .post-meta {
+    margin: 3px 0 10px 0;
+    text-align: left;
+}
+
+.post-body {
+    font-family: 'Monda', "PingFang SC", "Microsoft YaHei", sans-serif;
+    font-size: 14px;
+}
