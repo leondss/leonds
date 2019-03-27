@@ -1,5 +1,5 @@
 .pagination {
-    margin: 120px 0 40px;
+    margin: 40px 0 40px;
     text-align: center;
     border: 0;
 }
@@ -10,6 +10,20 @@
     margin: 0 5px;
     padding: 0 6px;
     font-size: 14px;
+}
+
+.pagination .prev,
+.pagination .next,
+.pagination .page-number {
+    border-bottom: 1px solid #eee;
+    border-top: 0;
+    margin: 0 5px;
+}
+
+.pagination .prev:hover,
+.pagination .next:hover,
+.pagination .page-number:hover {
+    border-bottom-color: #222;
 }
 
 .disable-link {
@@ -50,4 +64,65 @@
     font-size: 16px;
     font-weight: bold;
     color: #fc6423;
+}
+
+.comments-wrap .ct-body {
+    margin: 15px 0;
+}
+
+.comments-wrap .ct-footer {
+    margin: 10px 0;
+}
+
+.ct-body .comment {
+    margin: 10px 0;
+}
+
+.ct-body .comment .comment-meta a {
+    font-weight: bold;
+}
+
+.ct-body .comment .comment-meta span {
+    color: #bbb6b6;
+    font-size: 12px;
+    margin-left: 5px;
+}
+
+.ct-body .comment .comment-actions a {
+    color: #bbb6b6;
+    font-size: 12px;
+    border: 0;
+}
+
+.ct-form {
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.ct-form textarea {
+    width: 100%;
+    resize: none;
+    border: 1px solid #CFD8DC;
+    background: #fff;
+    font-size: 14px;
+    padding-left: 10px;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+
+.ct-form input {
+    display: inline;
+    resize: vertical;
+    padding-left: 10px;
+    margin-right: 10px;
+    height: 28px;
+    font-size: 14px;
+    background-color: #fff;
+    vertical-align: middle;
+    border: 1px solid #CFD8DC;
+    border-radius: 0;
+    outline: none;
+    box-shadow: none;
+    overflow: visible;
 }

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.leonds.blog.www.mapper">
+
+    <select id="getComments" parameterType="hashmap" resultType="hashmap">
+        <include refid="common.pre_sql"/>
+        SELECT
+        t.id,
+        t.pid,
+        t.content,
+        t.subject_id,
+        u.nick_name,
+        u.site
+        FROM
+        comments t,
+        users u
+        WHERE
+        u.id = t.uid
+        AND t.`status` = 2
+        AND t.subject_id = #{subjectId}
+        ORDER BY
+        t.creation_time DESC
+        <include refid="common.post_sql"/>
+    </select>
+
+</mapper>

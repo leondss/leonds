@@ -3,7 +3,7 @@ var Services = {
         return parseInt(Math.random() * (max - min + 1) + min, 10);
     },
     getTags: function () {
-        $.get('/frontend/tags', function (res) {
+        $.get('/fpi/tags', function (res) {
             if (res) {
                 var colors = ['#8e8e8e', '#ccc', '#4f4f4f', '#bcbcbc', '#404040', '#111', '#5f5f5f']
                 var html = ''
@@ -19,7 +19,7 @@ var Services = {
         })
     },
     getIndexCount: function () {
-        $.get('/frontend/rpt', function (res) {
+        $.get('/fpi/rpt', function (res) {
             if (res) {
                 $('#countCate').text(res['cateCount']);
                 $('#countPosts').text(res['postsCount']);
@@ -36,7 +36,7 @@ var Services = {
         })
     },
     getLinks: function () {
-        $.get('/frontend/links', function (res) {
+        $.get('/fpi/links', function (res) {
             if (res) {
                 var html = ''
                 for (var i = 0; i < res.length; i++) {
@@ -48,6 +48,30 @@ var Services = {
                 $('#links').append(html)
             }
         })
+    },
+    getComments: function (subjectId, page, size) {
+        $.get('/fpi/comments/list?page=' + page + '&size=' + size + '&subjectId=' + subjectId, function (res) {
+            if (res) {
+                console.log(res);
+            }
+        })
+    },
+    initReply: function (target) {
+        var tpl =
+            '<div id="commentsReply"><form class="ct-form">\n' +
+            '       <div>\n' +
+            '           <textarea maxlength="1000" rows="3" placeholder="在这里评论" name="content"></textarea>\n' +
+            '       </div>\n' +
+            '       <div>\n' +
+            '           <input type="text" placeholder="昵称" name="nickName">\n' +
+            '           <input type="text" placeholder="邮箱" name="email">\n' +
+            '           <input type="text" placeholder="网址" name="site">\n' +
+            '           <button type="button" class="btn pull-right">发表评论</button>\n' +
+            '           <span class="pull-right" style="margin-right: 10px">0/1000</span>\n' +
+            '       </div>\n' +
+            '</form></div>';
+        var id = target.data('id');
+        var parent = target.parent();
     }
 }
 
