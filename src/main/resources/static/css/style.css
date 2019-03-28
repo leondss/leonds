@@ -94,6 +94,17 @@
     border: 0;
 }
 
+.ct-body .comment .rel {
+    padding: 0.5em 1em;
+    border-left: 2px solid #ff1700;
+    /*background-color: #f9f9f9;*/
+    /*list-style: none;*/
+}
+
+.ct-body .comment .comment-floor{
+    float: right;
+}
+
 .ct-form {
     position: relative;
     margin-bottom: 10px;

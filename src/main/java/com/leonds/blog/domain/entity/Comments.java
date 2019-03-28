@@ -103,4 +103,5 @@ public class Comments extends BaseEntity {
     public void setRefusalCause(String refusalCause) {
         this.refusalCause = refusalCause;
     }
+
 }

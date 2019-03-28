@@ -123,58 +123,10 @@
                         </article>
                     </div>
                 </div>
-                <div class="comments-wrap">
-                    <div class="ct-meta"><span class="ct-counts">18</span> 条评论</div>
-                    <div class="ct-body">
-                        <div class="comment">
-                            <div class="comment-meta">
-                                <a href="http://www.baidu.com" target="_blank">标题</a>
-                                <span>昨天 20:32</span>
-                            </div>
-                            <div class="comment-text">
-                                就像 当年 微软 和 Mozilla 浏览器大战一样
-                                需要一个统一的标准
-                                否则群雄割据 苦的只能是 开发的人
-                            </div>
-                            <div class="comment-actions">
-                                <a class="comment-reply" data-id="1"><i class="fa fa-comment-o"></i> 回复</a>
-                            </div>
-                        </div>
-                        <div class="comment">
-                            <div class="comment-meta">
-                                <a href="http://www.baidu.com" target="_blank">标题</a>
-                                <span>昨天 20:32</span>
-                            </div>
-                            <div class="comment-text">
-                                就像 当年 微软 和 Mozilla 浏览器大战一样
-                                需要一个统一的标准
-                                否则群雄割据 苦的只能是 开发的人
-                            </div>
-                            <div class="comment-actions">
-                                <a class="comment-reply" data-id="1"><i class="fa fa-comment-o"></i> 回复</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ct-footer">
-                        <nav class="pagination">
-                            <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a
-                                class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"
-                                                                                  aria-label="下一页"></i></a>
-                        </nav>
-                        <form class="ct-form">
-                            <div>
-                                <textarea maxlength="1000" rows="3" placeholder="在这里评论"></textarea>
-                            </div>
-                            <div>
-                                <input type="text" placeholder="昵称">
-                                <input type="text" placeholder="邮箱">
-                                <input type="text" placeholder="网址">
-                                <button type="button" class="btn pull-right">发表评论</button>
-                                <span class="pull-right" style="margin-right: 10px">0/1000</span>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+                <div id="comments"
+                     th:data-subject-id="${posts.id}"
+                     data-comments-type="posts"
+                     data-page="1"></div>
             </div>
 
             <div th:include="common/aside::leftLayout('item')"></div>
@@ -185,13 +137,7 @@
 </div>
 
 <div th:replace="common/js"></div>
-<script>
-    $(function () {
-        /*var $comments = $('.comments-wrap')
-        if ($comments) {
-            Services.getComments()
-        }*/
-    })
-</script>
+<script src="/js/src/js.cookie.js"></script>
+<script src="/js/src/comments.js"></script>
 </body>
 </html>

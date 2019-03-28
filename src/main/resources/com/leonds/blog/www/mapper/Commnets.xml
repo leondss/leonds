@@ -4,23 +4,26 @@
 
     <select id="getComments" parameterType="hashmap" resultType="hashmap">
         <include refid="common.pre_sql"/>
+        <![CDATA[
         SELECT
         t.id,
         t.pid,
         t.content,
         t.subject_id,
         u.nick_name,
-        u.site
+        u.site,
+        DATE_FORMAT(t.creation_time,'%Y-%m-%d %H:%i:%S') AS publish_time,
+        (select CONCAT('<b>引用来自“',tu.nick_name,'”的评论</b><br/>',ts.content) from comments ts,users tu where tu.id = ts.uid and ts.id = t.pid) rel_comments
         FROM
         comments t,
         users u
         WHERE
         u.id = t.uid
-        AND t.`status` = 2
+        AND (t.`status` = 2 or t.`status` = 1)
         AND t.subject_id = #{subjectId}
         ORDER BY
         t.creation_time DESC
+        ]]>
         <include refid="common.post_sql"/>
     </select>
-
 </mapper>
