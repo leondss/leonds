@@ -54,7 +54,7 @@ public class FrontCommentsServiceImpl implements FrontCommentsService {
         if ("posts".equals(commentsDto.getSubjectType())) {
             Posts posts = pm.get(Posts.class, commentsDto.getSubjectId());
             if (posts != null) {
-                posts.setCommentsCount(posts.getCommentsStatus() + 1);
+                posts.setCommentsCount(posts.getCommentsCount() + 1);
                 pm.save(posts);
             }
         }

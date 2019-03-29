@@ -1,80 +1,8 @@
 /* global NexT: true */
 
-// 生成文章目录
-$(function () {
-    var $ele = $('#postsBody');
-    if ($ele) {
-        var headingsMaxDepth = 6;
-        var headingsSelector = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].slice(0, headingsMaxDepth).join(',');
-        var headings = $ele.find(headingsSelector)
-
-        if (!headings.length) return '';
-
-        var className = 'toc';
-        var listNumber = true;
-        var result = '<ol class="' + className + '">';
-        var lastNumber = [0, 0, 0, 0, 0, 0];
-        var firstLevel = 0;
-        var lastLevel = 0;
-
-        function getId(ele) {
-            return $(ele).find('a').attr('name');
-        }
-
-        headings.each(function () {
-            var level = +this.tagName[1];
-            var id = getId(this);
-            var text = $(this).text()
-
-            lastNumber[level - 1]++;
-
-            for (var i = level; i <= 5; i++) {
-                lastNumber[i] = 0;
-            }
-
-            if (firstLevel) {
-                for (var i = level; i < lastLevel; i++) {
-                    result += '</li></ol>';
-                }
-
-                if (level > lastLevel) {
-                    result += '<ol class="' + className + '-child">';
-                } else {
-                    result += '</li>';
-                }
-            } else {
-                firstLevel = level;
-            }
-
-            result += '<li class="' + className + '-item ' + className + '-level-' + level + '">';
-            result += '<a class="' + className + '-link" href="#' + id + '">';
-
-            if (listNumber) {
-                result += '<span class="' + className + '-number">';
-
-                for (var i = firstLevel - 1; i < level; i++) {
-                    result += lastNumber[i] + '.';
-                }
-
-                result += '</span> ';
-            }
-
-            result += '<span class="' + className + '-text">' + text + '</span></a>';
-
-            lastLevel = level;
-        });
-
-        for (var i = firstLevel - 1; i < lastLevel; i++) {
-            result += '</li></ol>';
-        }
-
-        $('.post-toc-content').append(result);
-    }
-});
-
 $(document).ready(function () {
-
     initScrollSpy();
+    initToc();
 
     function initScrollSpy() {
         var tocSelector = '.post-toc';
@@ -98,6 +26,77 @@ $(document).ready(function () {
         function removeCurrentActiveClass() {
             $(tocSelector + ' ' + activeCurrentSelector)
                 .removeClass(activeCurrentSelector.substring(1));
+        }
+    }
+
+    function initToc() {
+        var $ele = $('#postsBody');
+        if ($ele) {
+            var headingsMaxDepth = 6;
+            var headingsSelector = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].slice(0, headingsMaxDepth).join(',');
+            var headings = $ele.find(headingsSelector);
+
+            if (!headings.length) return '';
+
+            var className = 'nav';
+            var listNumber = true;
+            var result = '<ol class="' + className + '">';
+            var lastNumber = [0, 0, 0, 0, 0, 0];
+            var firstLevel = 0;
+            var lastLevel = 0;
+
+            function getId(ele) {
+                return $(ele).find('a').attr('name');
+            }
+
+            headings.each(function () {
+                var level = +this.tagName[1];
+                var id = getId(this);
+                var text = $(this).text();
+
+                lastNumber[level - 1]++;
+
+                for (var i = level; i <= 5; i++) {
+                    lastNumber[i] = 0;
+                }
+
+                if (firstLevel) {
+                    for (var i = level; i < lastLevel; i++) {
+                        result += '</li></ol>';
+                    }
+
+                    if (level > lastLevel) {
+                        result += '<ol class="' + className + '-child">';
+                    } else {
+                        result += '</li>';
+                    }
+                } else {
+                    firstLevel = level;
+                }
+
+                result += '<li class="' + className + '-item ' + className + '-level-' + level + '">';
+                result += '<a class="' + className + '-link" href="#' + id + '">';
+
+                if (listNumber) {
+                    result += '<span class="' + className + '-number">';
+
+                    for (var i = firstLevel - 1; i < level; i++) {
+                        result += lastNumber[i] + '.';
+                    }
+
+                    result += '</span> ';
+                }
+
+                result += '<span class="' + className + '-text">' + text + '</span></a>';
+
+                lastLevel = level;
+            });
+
+            for (var i = firstLevel - 1; i < lastLevel; i++) {
+                result += '</li></ol>';
+            }
+
+            $('.post-toc-content').append(result);
         }
     }
 

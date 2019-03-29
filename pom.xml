@@ -129,7 +129,8 @@
             <groupId>com.leonds</groupId>
             <artifactId>leonds-core</artifactId>
             <version>1.0</version>
-            <systemPath>${project.basedir}/lib/leonds-core-1.0.jar</systemPath>
+            <scope>system</scope>
+            <systemPath>${pom.basedir}/lib/leonds-core-1.0.jar</systemPath>
         </dependency>
 
     </dependencies>

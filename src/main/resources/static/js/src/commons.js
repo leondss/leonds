@@ -48,36 +48,12 @@ var Services = {
                 $('#links').append(html)
             }
         })
-    },
-    getComments: function (subjectId, page, size) {
-        $.get('/fpi/comments/list?page=' + page + '&size=' + size + '&subjectId=' + subjectId, function (res) {
-            if (res) {
-                console.log(res);
-            }
-        })
-    },
-    initReply: function (target) {
-        var tpl =
-            '<div id="commentsReply"><form class="ct-form">\n' +
-            '       <div>\n' +
-            '           <textarea maxlength="1000" rows="3" placeholder="在这里评论" name="content"></textarea>\n' +
-            '       </div>\n' +
-            '       <div>\n' +
-            '           <input type="text" placeholder="昵称" name="nickName">\n' +
-            '           <input type="text" placeholder="邮箱" name="email">\n' +
-            '           <input type="text" placeholder="网址" name="site">\n' +
-            '           <button type="button" class="btn pull-right">发表评论</button>\n' +
-            '           <span class="pull-right" style="margin-right: 10px">0/1000</span>\n' +
-            '       </div>\n' +
-            '</form></div>';
-        var id = target.data('id');
-        var parent = target.parent();
     }
-}
+};
 
 
 $(function () {
     Services.getIndexCount();
     Services.activeMenu();
     Services.getLinks();
-})
+});

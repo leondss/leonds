@@ -53,7 +53,7 @@ public class ApiController {
 
     @GetMapping("/comments/list")
     public Page<Map<String, Object>> commentsList(@RequestParam(defaultValue = "0") int page,
-                                                  @RequestParam(defaultValue = "15") int size,
+                                                  @RequestParam(defaultValue = "10") int size,
                                                   String subjectId) {
         return frontCommentsService.getComments(subjectId, PageRequest.of(page, size));
     }
